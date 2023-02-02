@@ -129,3 +129,8 @@ dmypy.json
 .pyre/
 
 .idea/
+
+client_secret.json
+client_secret_new.json
+
+SECRETS.py
