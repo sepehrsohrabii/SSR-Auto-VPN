@@ -134,3 +134,5 @@ client_secret.json
 client_secret_new.json
 
 SECRETS.py
+file.key
+file.key.pub
