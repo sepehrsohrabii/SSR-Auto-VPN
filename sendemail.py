@@ -1,9 +1,10 @@
 import smtplib
 from email.mime.text import MIMEText
-from SECRETS import EMAIL_PASSWORD
+from SECRETS import EMAIL_PASSWORD, EMAIL_SENDER
+
 
 def send_email(subject, body, sender, recipients, password):
-    msg = MIMEText(body)
+    msg = MIMEText(body, 'html')
     msg['Subject'] = subject
     msg['From'] = sender
     msg['To'] = ', '.join(recipients)
@@ -14,19 +15,14 @@ def send_email(subject, body, sender, recipients, password):
 
 
 def get_email_info(user_name, user_mail, user_link):
-    sender = "sepehr0sohrabi@gmail.com"
+    sender = EMAIL_SENDER
     password = EMAIL_PASSWORD
-    subject = f'VPN connection for {user_name} from server two'
-    body = f'''وی پی ان برای {user_name}:
-    
-    {user_link}
-    
-    ** اپلیکیشن اندروید: SSRAY
-    ** اپلیکیشن آیفون: FairVPN
-       '''
+    subject = f'ShadowsocksR user for {user_name}.'
+
+    with open("email_template.html", "r") as f:
+        template = f.read()
+
+    body = template.format(user_name=user_name, user_link=user_link)
     recipients = [user_mail]
     send_email(subject, body, sender, recipients, password)
-    print(user_name, user_mail, 'Sent!')
-
-
-
+    print(user_name, user_mail, 'Sent!' + '\n')

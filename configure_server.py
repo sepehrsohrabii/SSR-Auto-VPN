@@ -2,7 +2,7 @@ import time
 from server_creator import server_creator
 import paramiko
 import re
-from SECRETS import SHADOWSOCKSR_PASSWORD, SSH_PRIVATE_KEY_PASS
+from SECRETS import SHADOWSOCKSR_PASSWORD, SSH_PRIVATE_KEY_PASS, EMAIL_SENDER
 from sendemail import get_email_info
 
 
@@ -92,7 +92,7 @@ def configure_server(list, server_name):
         print('This is Admin\'s user link: ')
         print(user_link)
         print('Going to send it.')
-        get_email_info("admin", "sepehr0sohrabi@gmail.com", user_link)
+        get_email_info("admin", EMAIL_SENDER, user_link)
 
 
     # Create users
@@ -116,9 +116,8 @@ def configure_server(list, server_name):
             user_link = match.group()
             print(f'This is {name}\'s user link: ')
             print(user_link)
-            print('Goint to send it.')
+            print('Going to send it.')
             get_email_info(name, email, user_link)
 
     # Close the connection
     ssh.close()
-

@@ -1,6 +1,5 @@
 import requests
-from SECRETS import HETZNER_API_KEY
-import paramiko
+from SECRETS import HETZNER_API_KEY, HETZNER_SSH_KEY_NAME
 
 
 def server_creator(server_name):
@@ -59,7 +58,7 @@ def server_creator(server_name):
         "location": locations[int(location_choice) - 1]["name"],
         "image": "ubuntu-20.04",
         "start_after_create": True,
-        "ssh_keys": ["noname"],
+        "ssh_keys": [HETZNER_SSH_KEY_NAME],
     }
 
     # Send the server creation request
@@ -81,27 +80,11 @@ def server_creator(server_name):
             f"https://api.hetzner.cloud/v1/servers/{server_id}", headers=headers
         )
         server_status = response.json()["server"]["status"]
-    '''
-    # Retrieve the root password
-    response = requests.post(
-        f"https://api.hetzner.cloud/v1/servers/{server_id}/actions/reset_password",
-        headers=headers,
-    )
 
-    if 'error' in response.json():
-        print(f"Error resetting password: {response.text}")
-        exit(1)
-
-    root_password = response.json()["root_password"]
-
-    print(f"Root password: {root_password}")
-    '''
-    # root_password = input('Please enter the root password that you recieved from email recently: ')
     login_info = {
             "server_id": server["id"],
             "server_name": server["name"],
             "server_ip": server["public_net"]["ipv4"]["ip"],
-            # "root_password": root_password,
         }
     print("Server Created. Login information:")
     print(login_info)

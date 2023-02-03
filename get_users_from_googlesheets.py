@@ -2,8 +2,8 @@ import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 from SECRETS import MY_GOOGLE_SHEET_URL
 
+
 def get_users():
-    #sheet_link = input('Please paste your google sheet share link that contains users information here: ')
     sheet_link = MY_GOOGLE_SHEET_URL
     # setup credentials
     scope = ['https://spreadsheets.google.com/feeds',
@@ -30,8 +30,7 @@ def get_users():
 
     # print the list of accounts
     print(accounts)
-    # check_accounts = input("If the accounts list is ok, press 1 and if it is not, press 0 and then press Enter: ")
-    check_accounts = "1"
+    check_accounts = input("If the accounts list is ok, press 1 and if it is not, press 0 and then press Enter: ")
     if check_accounts != "1":
         exit()
     print("Users have gotten from the google sheet successfully.")
