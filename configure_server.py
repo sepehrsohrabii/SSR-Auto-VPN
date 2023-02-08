@@ -13,6 +13,7 @@ def configure_server(list, server_name):
 
     # Connection details
     host = server_access_info['server_ip']
+    host_ir = input('Tunnel host IP: ')
     username = 'root'
 
     # The path to the private key file
@@ -71,7 +72,7 @@ def configure_server(list, server_name):
     # Install ShadowsocksR
     port = 2333
     try:
-        stdin, stdout, stderr = ssh.exec_command(f"./ssrmu.sh <<< $'1\n\nAdmin\n{port}\n{SHADOWSOCKSR_PASSWORD}\n10\n5\n2\nn\n\n\n\n\n\n'")
+        stdin, stdout, stderr = ssh.exec_command(f"./ssrmu.sh <<< $'1\n{host_ir}\nAdmin\n{port}\n{SHADOWSOCKSR_PASSWORD}\n10\n5\n2\nn\n\n\n\n\n\n'")
         exit_status = stdout.channel.recv_exit_status()  # Blocking call
         if exit_status == 0:
             print("ShadowsocksR installed.")
@@ -85,7 +86,7 @@ def configure_server(list, server_name):
         exit()
 
     # Get the user link that starts from ssr://
-    pattern = r"ssr:\/\/.*"
+    pattern = r"ssr:\/\/.*[a-zA-Z]\w"
     match = re.search(pattern, output)
     if match:
         user_link = match.group()
@@ -110,7 +111,7 @@ def configure_server(list, server_name):
         output = stdout.read().decode()
 
         # Get the user link that starts from ssr://
-        pattern = r"ssr:\/\/.*"
+        pattern = r"ssr:\/\/.*[a-zA-Z]\w"
         match = re.search(pattern, output)
         if match:
             user_link = match.group()

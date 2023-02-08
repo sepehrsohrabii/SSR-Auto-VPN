@@ -21,5 +21,7 @@ elif users_per_server > 0:
     i = 1
     for list in divided_users_list:
         server_name = f'server{i}'
-        configure_server(list, server_name)
+        check = int(input(f'If you want to skip {server_name}\'s configuration press 0 if not press 1: '))
+        if check == 1:
+            configure_server(list, server_name)
         i += 1

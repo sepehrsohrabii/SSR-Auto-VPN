@@ -17,8 +17,7 @@ def send_email(subject, body, sender, recipients, password):
 def get_email_info(user_name, user_mail, user_link):
     sender = EMAIL_SENDER
     password = EMAIL_PASSWORD
-    subject = f'ShadowsocksR user for {user_name}.'
-
+    subject = f'User for {user_name}.'
     with open("email_template.html", "r") as f:
         template = f.read()
 
