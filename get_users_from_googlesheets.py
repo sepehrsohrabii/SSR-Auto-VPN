@@ -8,7 +8,7 @@ def get_users():
     # setup credentials
     scope = ['https://spreadsheets.google.com/feeds',
              'https://www.googleapis.com/auth/drive']
-    creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret_new.json', scope)
+    creds = ServiceAccountCredentials.from_json_keyfile_name('client_secret.json', scope)
 
     # authorize and open the sheet
     gc = gspread.authorize(creds)
