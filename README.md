@@ -69,3 +69,8 @@ iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination TUNNEl_
 iptables -t nat -A PREROUTING -j DNAT --to-destination MAIN_SERVER_IP
 iptables -t nat -A POSTROUTING -j MASQUERADE
 ```
+
+
+-----
+## Updates
+* Now you can configure the server which you had.

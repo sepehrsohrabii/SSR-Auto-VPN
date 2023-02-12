@@ -8,22 +8,35 @@ from sendemail import get_email_info
 
 # 3.Configure servers
 def configure_server(list, server_name):
-    # 3.2.Login to server
-    server_access_info = server_creator(server_name)
+    hetzner_or_not = int(input("If you want to create a new Hetzner server press 1, if you want to configure your own "
+                           "server press 0 and then press Enter. (0/1) "))
+    if hetzner_or_not == 1:
+        # 3.2.Login to server
+        server_access_info = server_creator(server_name)
 
-    # Connection details
-    host = server_access_info['server_ip']
-    host_ir = input('Tunnel host IP: ')
-    username = 'root'
+        # Connection details
+        host = server_access_info['server_ip']
+        host_ir = input('Tunnel host IP:(if you have if not press Enter) ')
+        if host_ir == '':
+            host_ir = host
+        username = 'root'
 
-    # The path to the private key file
-    private_key_file = "./file.key"
+        # The path to the private key file
+        private_key_file = "./file.key"
 
-    # The password to unlock the private key
-    private_key_password = SSH_PRIVATE_KEY_PASS
+        # The password to unlock the private key
+        private_key_password = SSH_PRIVATE_KEY_PASS
 
-    # Load the private key
-    private_key = paramiko.RSAKey.from_private_key_file(private_key_file, password=private_key_password)
+        # Load the private key
+        private_key = paramiko.RSAKey.from_private_key_file(private_key_file, password=private_key_password)
+    elif hetzner_or_not == 0:
+        host = input("Please enter your host's IP: ")
+        host_ir = input('Tunnel host IP:(if you have if not press Enter) ')
+        if host_ir == '':
+            host_ir = host
+        username = 'root'
+        password = input("Enter your server's password: ")
+        ssh_port = input("Enter your server's SSH port: ")
 
     # Create an instance of the SSH client
     ssh = paramiko.SSHClient()
@@ -31,21 +44,30 @@ def configure_server(list, server_name):
 
     try:
         time.sleep(20)
-        ssh.connect(host, username=username, pkey=private_key)
+        if hetzner_or_not == 1:
+            ssh.connect(host, username=username, pkey=private_key)
+        elif hetzner_or_not == 0:
+            ssh.connect(host, username=username, password=password)
         # Successful connection message
         print("Connected to {} as {}".format(host, username))
 
     except Exception as e:
         print("Error: {}".format(e), "Sleep time was 20 seconds. Now going to try 30 seconds.")
         time.sleep(30)
-        ssh.connect(host, username=username, pkey=private_key)
+        if hetzner_or_not == 1:
+            ssh.connect(host, username=username, pkey=private_key)
+        elif hetzner_or_not == 0:
+            ssh.connect(host, username=username, password=password)
         # Successful connection message
         print("Connected to {} as {}".format(host, username))
 
     except Exception as e:
         print("Error: {}".format(e), "Sleep time was 30 seconds. Now going to try 40 seconds.")
         time.sleep(40)
-        ssh.connect(host, username=username, pkey=private_key)
+        if hetzner_or_not == 1:
+            ssh.connect(host, username=username, pkey=private_key)
+        elif hetzner_or_not == 0:
+            ssh.connect(host, username=username, password=password)
         # Successful connection message
         print("Connected to {} as {}".format(host, username))
 
